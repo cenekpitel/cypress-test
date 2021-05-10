@@ -18,3 +18,9 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+before(() => {
+    cy.request('http://automationpractice.com/index.php')
+        .then((resp) => {
+            expect(resp.status).to.eq(200)
+        })
+})
