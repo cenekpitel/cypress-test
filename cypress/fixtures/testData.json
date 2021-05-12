@@ -1,4 +1,15 @@
 {
     "searchTerm": "dress",
-    "invalidSearchTerm": "adfafae"
+    "invalidSearchTerm": "adfafae",
+    "invalidEmail": "test@test@test",
+    "validPassword": "Test123",
+    "firstname": "John",
+    "lastname": "Doe",
+    "address": {
+       "street": "Street 1",
+       "city": "Prague",
+       "postcode": 11000
+    },
+    "phoneNumber": 777555777,
+    "addressAlias": "Home"
 }
