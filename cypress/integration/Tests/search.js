@@ -1,3 +1,5 @@
+const testData = require("../../fixtures/testData.json")
+
 const visitWebsite = () => {
     cy.visit('/index.php')
 }
@@ -21,18 +23,13 @@ const checkStructureElements = () => {
 }
 
 describe('Search test', function () {
-    before(() => {
-        cy.fixture('testData').then((testData) => {
-            this.testData = testData
-        })   
-    })
 
     it('Visits website', function () {
         visitWebsite()
     })
 
     it('Type into search field - valid term', () => {
-        enterSearchTerm(this.testData.searchTerm)
+        enterSearchTerm(testData.searchTerm)
     })
 
     it('Click the search button', function () {
@@ -42,25 +39,19 @@ describe('Search test', function () {
     it('Search returns results', () => {
         checkStructureElements()
         cy.get('.product-container')
-            .find('.product-name').contains(this.testData.searchTerm, {matchCase: false})
+            .find('.product-name').contains(testData.searchTerm, {matchCase: false})
     })
 
 })
 
 describe('Search with no results', function () {
 
-    before(() => {
-        cy.fixture('testData').then((testData) => {
-            this.testData = testData
-        })   
-    })
-
-    it('Visits website again', function () {
+    it('Visits website', function () {
         visitWebsite()
     })
 
     it('Type into search field - invalid term', () => {
-        enterSearchTerm(this.testData.invalidSearchTerm)
+        enterSearchTerm(testData.invalidSearchTerm)
     })
 
     it('Click the search button', function () {
@@ -70,7 +61,7 @@ describe('Search with no results', function () {
     it('Search returns no results', () => {
         
         cy.get('.alert-warning')
-            .contains(`No results were found for your search "${this.testData.invalidSearchTerm}"`)
+            .contains(`No results were found for your search "${testData.invalidSearchTerm}"`)
     })
 
     it('Visits website', function () {
