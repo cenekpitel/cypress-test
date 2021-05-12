@@ -1,5 +1,5 @@
 const visitWebsite = () => {
-    cy.visit('http://automationpractice.com/index.php')
+    cy.visit('/index.php')
 }
 
 const clickSearchButton = () => {
@@ -9,6 +9,15 @@ const clickSearchButton = () => {
 const enterSearchTerm = (term) => {
     cy.get('.search_query')
             .type(term).should('have.value', term)
+}
+
+const checkStructureElements = () => {
+    cy.get('.home')
+    .find('i').should('have.class', 'icon-home')
+    cy.get('.breadcrumb')
+    .find('span').should('have.class', 'navigation-pipe')
+    cy.get('.breadcrumb')
+    .find('span').contains('Search')
 }
 
 describe('Search test', function () {
@@ -30,12 +39,23 @@ describe('Search test', function () {
         clickSearchButton()
     })
 
-    it('Search return results', () => {
+    it('Search returns results', () => {
+        checkStructureElements()
         cy.get('.product-container')
             .find('.product-name').contains(this.testData.searchTerm, {matchCase: false})
     })
 
-    it('Visits website', function () {
+})
+
+describe('Search with no results', function () {
+
+    before(() => {
+        cy.fixture('testData').then((testData) => {
+            this.testData = testData
+        })   
+    })
+
+    it('Visits website again', function () {
         visitWebsite()
     })
 
@@ -48,6 +68,7 @@ describe('Search test', function () {
     })
 
     it('Search returns no results', () => {
+        
         cy.get('.alert-warning')
             .contains(`No results were found for your search "${this.testData.invalidSearchTerm}"`)
     })
@@ -61,6 +82,7 @@ describe('Search test', function () {
     })
 
     it('Search returns no results', () => {
+        checkStructureElements()
         cy.get('.alert-warning')
             .contains('Please enter a search keyword')
     })    
