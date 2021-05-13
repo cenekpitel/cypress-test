@@ -2,6 +2,8 @@
     "searchTerm": "dress",
     "invalidSearchTerm": "adfafae",
     "invalidEmail": "test@test@test",
+    "validEmail": "validEmail@test.com",
+    "orderReference": "tyyrfa",
     "validPassword": "Test123",
     "firstname": "John",
     "lastname": "Doe",
@@ -11,5 +13,6 @@
        "postcode": 11000
     },
     "phoneNumber": 777555777,
-    "addressAlias": "Home"
+    "addressAlias": "Home",
+    "textMessage": "Hello, I have a problem with my logo. I ordered size 500x500 and it arrived 100x100"
 }
