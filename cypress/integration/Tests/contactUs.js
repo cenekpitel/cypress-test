@@ -8,7 +8,7 @@ describe('Contact us form', function () {
         cy.get('#contact-link').find('a').contains('Contact us').click()
     })
 
-    // Check some elements present on th Contact Us form
+    // Check some Contact form elements
     it('Check page elements', function() {
         cy.get('#center_column').within(() => {
             cy.get('h1').contains('Customer service - Contact us', {matchCase: false})
@@ -25,6 +25,7 @@ describe('Contact us form', function () {
         })
     })
     
+    // Fills email and order reference fields
     it('Fills email and order reference fields', function () {
         cy.get('#center_column').within(() => {
             cy.get('.col-md-3').within(() => {
@@ -34,6 +35,7 @@ describe('Contact us form', function () {
         })
     })
 
+    // Select both options of Subject heading dropdown in order
     it('Checks and fill content of Subject heading dropdown', function() {
         cy.get('#center_column').within(() => {
             cy.get('.col-md-3').within(() => {
@@ -47,18 +49,14 @@ describe('Contact us form', function () {
         })
     })
 
+    // Upload a file to the form
     it('Upload a file', function () {
     cy.get('span[class=filename]').should('have.text', 'No file selected')
-    cy.fixture('testPNG.png').then(fileContent => {
-        cy.get('input[type="file"]').attachFile({
-            fileContent: fileContent.toString(),
-            fileName: 'testPNG.png',
-            mimeType: 'image/png'
-            });
-        });
+    cy.get('input[type="file"]').attachFile('testPNG.png');
     cy.get('span[class=filename]').should('have.text', 'testPNG.png')
     })
 
+    // Write text to the message form
     it('Fills message form', function () {
         cy.get('.col-md-9').children('.form-group').within(() => {
             cy.get('label').contains('Message')
@@ -66,6 +64,7 @@ describe('Contact us form', function () {
         })
     })
 
+    // Click on submit button
     it('Clicks on Submit button', function () {
         cy.get('#center_column').within(() => {
             cy.get('select[id=id_contact]').select('Webmaster').should('have.value', 1)
@@ -76,6 +75,7 @@ describe('Contact us form', function () {
         })
     })
 
+    // Check Contact Us form has been successfuly sent
     it('Check success message after submitting', function () {
         cy.get('p[class=alert-success]').should('have.value', 'Your message has been successfully sent to our team.')
     })

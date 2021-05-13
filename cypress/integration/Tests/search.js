@@ -1,18 +1,22 @@
 const testData = require("../../fixtures/testData.json")
 
+// Visit website function
 const visitWebsite = () => {
     cy.visit('/index.php')
 }
 
+// Click Search button
 const clickSearchButton = () => {
     cy.get('.button-search').click()
 }
 
+// Enter Search term
 const enterSearchTerm = (term) => {
     cy.get('.search_query')
             .type(term).should('have.value', term)
 }
 
+// Check structure elemetns
 const checkStructureElements = () => {
     cy.get('.home')
     .find('i').should('have.class', 'icon-home')
@@ -22,9 +26,10 @@ const checkStructureElements = () => {
     .find('span').contains('Search')
 }
 
-describe('Search test', function () {
+describe('Search test with results', function () {
 
-    it('Visits website', function () {
+    // Visit Homepage
+    before(() => {
         visitWebsite()
     })
 
@@ -36,6 +41,7 @@ describe('Search test', function () {
         clickSearchButton()
     })
 
+    // Check if first result contains etnered search term
     it('Search returns results', () => {
         checkStructureElements()
         cy.get('.product-container')
@@ -46,10 +52,12 @@ describe('Search test', function () {
 
 describe('Search with no results', function () {
 
-    it('Visits website', function () {
+    // Visit Homepage
+    before(() => {
         visitWebsite()
     })
 
+    // Enter a search term with no results
     it('Type into search field - invalid term', () => {
         enterSearchTerm(testData.invalidSearchTerm)
     })
@@ -58,23 +66,27 @@ describe('Search with no results', function () {
         clickSearchButton()
     })
 
+    // Check correct error message is returned
     it('Search returns no results', () => {
-        
-        cy.get('.alert-warning')
-            .contains(`No results were found for your search "${testData.invalidSearchTerm}"`)
+        cy.get('.alert-warning').contains(`No results were found for your search "${testData.invalidSearchTerm}"`)
     })
+})
 
-    it('Visits website', function () {
+describe('Search with no search term', function () {
+   
+    // Visit Homepage
+    before(() => {
         visitWebsite()
     })
 
+    // Clicks on search button with blank search field
     it('Click the search button', function () {
         clickSearchButton()
     })
 
+    // Check correct error message is returned
     it('Search returns no results', () => {
         checkStructureElements()
-        cy.get('.alert-warning')
-            .contains('Please enter a search keyword')
+        cy.get('.alert-warning').contains('Please enter a search keyword')
     })    
 })

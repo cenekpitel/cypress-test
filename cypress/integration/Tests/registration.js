@@ -1,30 +1,31 @@
 import {randomEmail} from "../../support/index.js"
 const testData = require("../../fixtures/testData.json")
 
+// Visit website function
 const visitWebsite = () => {
-    cy.visit('http://automationpractice.com/index.php')
+    cy.visit('/index.php')
 }
 
+// Enter email function
 const enterEmail = (term) => {
     cy.get('#email_create')
             .type(term).should('have.value', term)
 }
 
+// Click Create account button function
 const clickCreateAnAccountButton = () => {
     cy.get('button[name=SubmitCreate]').click()
 }
 
 describe('Registration test - invalid email', function () {
 
-    it('Visits website', function () {
+    // Get to the Sign in / registration page
+    before(() => {
         visitWebsite()
-    })
-
-    it('Click on Sign in', function () {
         cy.get('.login').click()
         cy.get('.page-subheading').contains('Create an account', {matchCase: false})
     })
-
+ 
     it('Enters invalid email', function () {
         enterEmail(testData.invalidEmail)
     })
@@ -40,18 +41,15 @@ describe('Registration test - invalid email', function () {
 })
 
 describe('Registration test - valid email', function () {
+
+    // Get to the Sign in / registration page
     before(() => {
          cy.wrap(randomEmail).as('randomEmail')
+         visitWebsite()
+         cy.get('.login').click()
+         cy.get('.page-subheading').contains('Create an account', {matchCase: false})
     })
 
-    it('Visits website again', function () {
-        visitWebsite()
-    })
-
-    it('Click on Sign in', function () {
-        cy.get('.login').click()
-        cy.get('.page-subheading').contains('Create an account', {matchCase: false})
-    })
     it('Enters valid email', function () {
         enterEmail(randomEmail)
     })
