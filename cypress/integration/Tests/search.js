@@ -33,21 +33,14 @@ describe('Search test with results', function () {
         visitWebsite()
     })
 
-    it('Type into search field - valid term', () => {
+    it('Tries to search with results', () => {
         enterSearchTerm(testData.searchTerm)
-    })
-
-    it('Click the search button', function () {
         clickSearchButton()
-    })
-
-    // Check if first result contains etnered search term
-    it('Search returns results', () => {
         checkStructureElements()
+        // Check if first result contains entered search term
         cy.get('.product-container')
             .find('.product-name').contains(testData.searchTerm, {matchCase: false})
     })
-
 })
 
 describe('Search with no results', function () {
@@ -58,19 +51,13 @@ describe('Search with no results', function () {
     })
 
     // Enter a search term with no results
-    it('Type into search field - invalid term', () => {
+    it('Tries to search with no results', () => {
         enterSearchTerm(testData.invalidSearchTerm)
-    })
-
-    it('Click the search button', function () {
         clickSearchButton()
-    })
-
-    // Check correct error message is returned
-    it('Search returns no results', () => {
+        // Check correct error message is returned
         cy.get('.alert-warning').contains(`No results were found for your search "${testData.invalidSearchTerm}"`)
+        })
     })
-})
 
 describe('Search with no search term', function () {
    
@@ -82,11 +69,8 @@ describe('Search with no search term', function () {
     // Clicks on search button with blank search field
     it('Click the search button', function () {
         clickSearchButton()
-    })
-
-    // Check correct error message is returned
-    it('Search returns no results', () => {
         checkStructureElements()
+        // Check correct error message is returned
         cy.get('.alert-warning').contains('Please enter a search keyword')
-    })    
+    })
 })
